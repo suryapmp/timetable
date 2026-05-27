@@ -431,7 +431,7 @@ function renderTable() {
 
 function addNewEntry() {
   const newEntry = {
-    slno: currentData.length + 1,
+    slno: 1,
     course: document.getElementById('newCourse').value.trim() || 'New Course',
     sem: document.getElementById('newSem').value.trim() || '1',
     scheme: document.getElementById('newScheme').value.trim() || '',
@@ -440,9 +440,20 @@ function addNewEntry() {
     resultDay: document.getElementById('newResultDay').value.trim(),
     remark: document.getElementById('newRemark').value.trim()
   };
-  if (!newEntry.course) { showToast('Please enter course name', 'warning'); return; }
-  currentData.push(newEntry);
+
+  if (!newEntry.course) {
+    showToast('Please enter course name', 'warning');
+    return;
+  }
+
+  // Add latest entry at TOP
+  currentData.unshift(newEntry);
+
+  // Re-number serial numbers
+  currentData.forEach((item, i) => item.slno = i + 1);
+
   saveToCloud(`➕ Added ${newEntry.course} Semester ${newEntry.sem}`, 'add');
+
   document.querySelectorAll('#adminPanel input').forEach(inp => inp.value = '');
 }
 
