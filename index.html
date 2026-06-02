@@ -138,7 +138,9 @@
       <input type="text" id="newScheme" placeholder="⚙️ Scheme" class="border border-gray-300 p-2.5 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none">
       <input type="text" id="newTheoryStart" placeholder="📅 Theory Start" class="border border-gray-300 p-2.5 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none">
       <input type="text" id="newTheoryEnd" placeholder="📅 Theory End" class="border border-gray-300 p-2.5 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none">
-      <input type="text" id="newResultDay" placeholder="🎯 Result Day" class="border border-gray-300 p-2.5 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none">
+      <input type="text" id="newPracticalStart" placeholder="🔧 Practical Start" class="border border-gray-300 p-2.5 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none">
+      <input type="text" id="newPracticalEnd" placeholder="🔧 Practical End" class="border border-gray-300 p-2.5 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none">
+      <input type="text" id="newExpectedResultDay" placeholder="🎯 Expected Result" class="border border-gray-300 p-2.5 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none">
       <input type="text" id="newRemark" placeholder="💬 Remark" class="border border-gray-300 p-2.5 rounded-xl text-sm focus:ring-2 focus:ring-blue-400 outline-none">
       <button id="addEntryBtn" class="btn-primary text-white rounded-xl py-2.5 text-sm font-semibold shadow-md"><i class="fas fa-plus mr-2"></i> Add Entry</button>
     </div>
@@ -156,13 +158,23 @@
       <table class="min-w-full text-sm">
         <thead class="bg-gradient-to-r from-blue-800 to-indigo-900 text-white">
           <tr class="text-xs uppercase tracking-wider">
-            <th class="p-3">#</th><th>Course</th><th>Sem</th><th>Scheme</th><th>Theory Start</th><th>Theory End</th><th>Result Day</th><th>Remark</th><th></th>
+            <th class="p-3">#</th>
+            <th>Course</th>
+            <th>Sem</th>
+            <th>Scheme</th>
+            <th>Theory Start</th>
+            <th>Theory End</th>
+            <th>Practical Start</th>
+            <th>Practical End</th>
+            <th>Expected Result Day</th>
+            <th>Remark</th>
+            <th></th>
           </tr>
         </thead>
         <tbody id="tableBody">
-          <tr><td colspan="9" class="text-center py-12"><div class="spinner"></div><p class="text-gray-500 mt-3 text-sm">Loading timetable from cloud...</p></td></tr>
+          <tr><td colspan="11" class="text-center py-12"><div class="spinner"></div><p class="text-gray-500 mt-3 text-sm">Loading timetable from cloud...</p></td></tr>
         </tbody>
-      </table>
+       </table>
     </div>
   </div>
   
@@ -180,28 +192,28 @@ const JSONBIN_BIN_ID = "6a1ebdc8da38895dfe7b26ae";
 const JSONBIN_API_KEY = "$2a$10$IAtt2ELhhnXcxCZAJKiyT.tF4ACkLiRM5MFBTIJ1Rwjb9b9LTOPKS";
 
 const DEFAULT_DATA = [
-  {"slno":1,"course":"B.Arch","sem":"2","scheme":"21","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":2,"course":"B.Arch","sem":"4","scheme":"21","theoryStart":"16-06-2026","theoryEnd":"08-07--2026","resultDay":"29-07-2026","remark":""},
-  {"slno":3,"course":"B.Arch","sem":"6","scheme":"21","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","resultDay":"08-07-2026","remark":""},
-  {"slno":4,"course":"B.Arch","sem":"8","scheme":"21","theoryStart":"01-06-2026","theoryEnd":"13-06-2026","resultDay":"08-06-2026","remark":""},
-  {"slno":5,"course":"B.Arch","sem":"10","scheme":"21","theoryStart":"","theoryEnd":"","resultDay":"","remark":""},
-  {"slno":6,"course":"B.Design","sem":"2","scheme":"22","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":7,"course":"B.Design","sem":"4","scheme":"22","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":8,"course":"B.Design","sem":"6","scheme":"22","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","resultDay":"08-07-2026","remark":""},
-  {"slno":9,"course":"BE","sem":"2","scheme":"25","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":10,"course":"BE","sem":"4","scheme":"22","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":11,"course":"BE","sem":"6","scheme":"22","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","resultDay":"08-07-2026","remark":""},
-  {"slno":12,"course":"BE","sem":"8","scheme":"22","theoryStart":"","theoryEnd":"","resultDay":"","remark":""},
-  {"slno":13,"course":"B.Plan","sem":"2","scheme":"21","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":14,"course":"B.Plan","sem":"4","scheme":"21","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":15,"course":"B.Plan","sem":"6","scheme":"21","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","resultDay":"08-07-2026","remark":""},
-  {"slno":16,"course":"B.Plan","sem":"8","scheme":"21","theoryStart":"21-04-2026","theoryEnd":"15-05-2026","resultDay":"08-06-2026","remark":""},
-  {"slno":17,"course":"BSc(Hons)","sem":"2","scheme":"21","theoryStart":"15-06-2026","theoryEnd":"16-06-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":18,"course":"BSc(Hons)","sem":"4","scheme":"21","theoryStart":"15-06-2026","theoryEnd":"16-06-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":19,"course":"BSc(Hons)","sem":"6","scheme":"21","theoryStart":"16-05-2026","theoryEnd":"18-05-2026","resultDay":"08-07-2026","remark":""},
-  {"slno":20,"course":"BSc(Hons)","sem":"8","scheme":"21","theoryStart":"21-04-2026","theoryEnd":"15-05-2026","resultDay":"08-06-2026","remark":""},
-  {"slno":21,"course":"BBA/BCA","sem":"2","scheme":"24","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","resultDay":"29-07-2026","remark":""},
-  {"slno":22,"course":"BBA/BCA","sem":"4","scheme":"24","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","resultDay":"08-07-2026","remark":""}
+  {"slno":1,"course":"B.Arch","sem":"2","scheme":"21","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":2,"course":"B.Arch","sem":"4","scheme":"21","theoryStart":"16-06-2026","theoryEnd":"08-07--2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":3,"course":"B.Arch","sem":"6","scheme":"21","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-07-2026","remark":""},
+  {"slno":4,"course":"B.Arch","sem":"8","scheme":"21","theoryStart":"01-06-2026","theoryEnd":"13-06-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-06-2026","remark":""},
+  {"slno":5,"course":"B.Arch","sem":"10","scheme":"21","theoryStart":"","theoryEnd":"","practicalStart":"","practicalEnd":"","expectedResultDay":"","remark":""},
+  {"slno":6,"course":"B.Design","sem":"2","scheme":"22","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":7,"course":"B.Design","sem":"4","scheme":"22","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":8,"course":"B.Design","sem":"6","scheme":"22","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-07-2026","remark":""},
+  {"slno":9,"course":"BE","sem":"2","scheme":"25","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":10,"course":"BE","sem":"4","scheme":"22","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":11,"course":"BE","sem":"6","scheme":"22","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-07-2026","remark":""},
+  {"slno":12,"course":"BE","sem":"8","scheme":"22","theoryStart":"","theoryEnd":"","practicalStart":"","practicalEnd":"22-05-2026","expectedResultDay":"","remark":""},
+  {"slno":13,"course":"B.Plan","sem":"2","scheme":"21","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":14,"course":"B.Plan","sem":"4","scheme":"21","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":15,"course":"B.Plan","sem":"6","scheme":"21","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-07-2026","remark":""},
+  {"slno":16,"course":"B.Plan","sem":"8","scheme":"21","theoryStart":"21-04-2026","theoryEnd":"15-05-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-06-2026","remark":""},
+  {"slno":17,"course":"BSc(Hons)","sem":"2","scheme":"21","theoryStart":"15-06-2026","theoryEnd":"16-06-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":18,"course":"BSc(Hons)","sem":"4","scheme":"21","theoryStart":"15-06-2026","theoryEnd":"16-06-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":19,"course":"BSc(Hons)","sem":"6","scheme":"21","theoryStart":"16-05-2026","theoryEnd":"18-05-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-07-2026","remark":""},
+  {"slno":20,"course":"BSc(Hons)","sem":"8","scheme":"21","theoryStart":"21-04-2026","theoryEnd":"15-05-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-06-2026","remark":""},
+  {"slno":21,"course":"BBA/BCA","sem":"2","scheme":"24","theoryStart":"16-06-2026","theoryEnd":"08-07-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"29-07-2026","remark":""},
+  {"slno":22,"course":"BBA/BCA","sem":"4","scheme":"24","theoryStart":"18-05-2026","theoryEnd":"17-06-2026","practicalStart":"","practicalEnd":"","expectedResultDay":"08-07-2026","remark":""}
 ];
 
 let currentData = [];
@@ -379,7 +391,17 @@ function testNotification() {
 
 async function editField(idx, field) {
   const oldVal = currentData[idx][field] || '';
-  const fieldLabels = { course: 'Course', sem: 'Semester', scheme: 'Scheme', theoryStart: 'Theory Start', theoryEnd: 'Theory End', resultDay: 'Result Day', remark: 'Remark' };
+  const fieldLabels = { 
+    course: 'Course', 
+    sem: 'Semester', 
+    scheme: 'Scheme', 
+    theoryStart: 'Theory Start', 
+    theoryEnd: 'Theory End',
+    practicalStart: 'Practical Start',
+    practicalEnd: 'Practical End',
+    expectedResultDay: 'Expected Result Day',
+    remark: 'Remark'
+  };
   const newVal = prompt(`✏️ Edit ${fieldLabels[field] || field} for ${currentData[idx].course}:`, oldVal);
   if (newVal !== null && newVal !== oldVal) {
     currentData[idx][field] = newVal;
@@ -390,7 +412,7 @@ async function editField(idx, field) {
 
 function renderTable() {
   const tbody = document.getElementById('tableBody');
-  if (!currentData.length) { tbody.innerHTML = '<tr><td colspan="9" class="text-center py-10 text-gray-400">No entries</td></tr>'; return; }
+  if (!currentData.length) { tbody.innerHTML = '<tr><td colspan="11" class="text-center py-10 text-gray-400">No entries</td></tr>'; return; }
   let html = '';
   currentData.forEach((item, idx) => {
     html += `<tr data-idx="${idx}" class="border-b border-gray-100 hover:bg-gray-50 transition-all">
@@ -400,10 +422,12 @@ function renderTable() {
       <td class="p-3"><div class="flex items-center gap-2"><span>${escapeHtml(item.scheme)}</span>${isAdmin ? `<i class="fas fa-pen edit-icon-btn" data-field="scheme" data-idx="${idx}"></i>` : ''}</div></td>
       <td class="p-3"><div class="flex items-center gap-2"><span>${item.theoryStart || '—'}</span>${isAdmin ? `<i class="fas fa-pen edit-icon-btn" data-field="theoryStart" data-idx="${idx}"></i>` : ''}</div></td>
       <td class="p-3"><div class="flex items-center gap-2"><span>${item.theoryEnd || '—'}</span>${isAdmin ? `<i class="fas fa-pen edit-icon-btn" data-field="theoryEnd" data-idx="${idx}"></i>` : ''}</div></td>
-      <td class="p-3"><div class="flex items-center gap-2"><span>${item.resultDay || '—'}</span>${isAdmin ? `<i class="fas fa-pen edit-icon-btn" data-field="resultDay" data-idx="${idx}"></i>` : ''}</div></td>
+      <td class="p-3"><div class="flex items-center gap-2"><span>${item.practicalStart || '—'}</span>${isAdmin ? `<i class="fas fa-pen edit-icon-btn" data-field="practicalStart" data-idx="${idx}"></i>` : ''}</div></td>
+      <td class="p-3"><div class="flex items-center gap-2"><span>${item.practicalEnd || '—'}</span>${isAdmin ? `<i class="fas fa-pen edit-icon-btn" data-field="practicalEnd" data-idx="${idx}"></i>` : ''}</div></td>
+      <td class="p-3"><div class="flex items-center gap-2"><span>${item.expectedResultDay || '—'}</span>${isAdmin ? `<i class="fas fa-pen edit-icon-btn" data-field="expectedResultDay" data-idx="${idx}"></i>` : ''}</div></td>
       <td class="p-3"><div class="flex items-center gap-2"><span>${escapeHtml(item.remark) || '—'}</span>${isAdmin ? `<i class="fas fa-pen edit-icon-btn" data-field="remark" data-idx="${idx}"></i>` : ''}</div></td>
       <td class="p-3">${isAdmin ? `<button class="delete-row bg-rose-100 text-rose-600 hover:bg-rose-200 rounded-full w-8 h-8 transition-all shadow-sm" data-idx="${idx}"><i class="fas fa-trash-alt text-xs"></i></button>` : ''}</td>
-    </tr>`;
+    </table>`;
   });
   tbody.innerHTML = html;
   if (isAdmin) {
@@ -437,7 +461,9 @@ function addNewEntry() {
     scheme: document.getElementById('newScheme').value.trim() || '',
     theoryStart: document.getElementById('newTheoryStart').value.trim(),
     theoryEnd: document.getElementById('newTheoryEnd').value.trim(),
-    resultDay: document.getElementById('newResultDay').value.trim(),
+    practicalStart: document.getElementById('newPracticalStart').value.trim(),
+    practicalEnd: document.getElementById('newPracticalEnd').value.trim(),
+    expectedResultDay: document.getElementById('newExpectedResultDay').value.trim(),
     remark: document.getElementById('newRemark').value.trim()
   };
 
@@ -446,10 +472,8 @@ function addNewEntry() {
     return;
   }
 
-  // Add latest entry at TOP
   currentData.unshift(newEntry);
 
-  // Re-number serial numbers
   currentData.forEach((item, i) => item.slno = i + 1);
 
   saveToCloud(`➕ Added ${newEntry.course} Semester ${newEntry.sem}`, 'add');
